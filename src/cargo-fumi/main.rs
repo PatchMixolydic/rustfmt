@@ -23,9 +23,9 @@ mod cargo_fmt_tests;
 #[derive(Parser)]
 #[clap(
     global_setting(AppSettings::NoAutoVersion),
-    bin_name = "cargo fmt",
+    bin_name = "cargo fumi",
     about = "This utility formats all bin and lib files of \
-             the current crate using rustfmt."
+             the current crate using rustfumi."
 )]
 pub struct Opts {
     /// No output printed to stdout
@@ -36,7 +36,7 @@ pub struct Opts {
     #[clap(short = 'v', long = "verbose")]
     verbose: bool,
 
-    /// Print rustfmt version and exit
+    /// Print rustfumi version and exit
     #[clap(long = "version")]
     version: bool,
 
@@ -57,7 +57,7 @@ pub struct Opts {
     #[clap(long = "message-format", value_name = "message-format")]
     message_format: Option<String>,
 
-    /// Options passed to rustfmt
+    /// Options passed to rustfumi
     // 'raw = true' to make `--` explicit.
     #[clap(name = "rustfmt_options", raw(true))]
     rustfmt_options: Vec<String>,
@@ -66,7 +66,7 @@ pub struct Opts {
     #[clap(long = "all")]
     format_all: bool,
 
-    /// Run rustfmt in check mode
+    /// Run rustfumi in check mode
     #[clap(long = "check")]
     check: bool,
 }
@@ -81,14 +81,14 @@ const SUCCESS: i32 = 0;
 const FAILURE: i32 = 1;
 
 fn execute() -> i32 {
-    // Drop extra `fmt` argument provided by `cargo`.
-    let mut found_fmt = false;
+    // Drop extra `fumi` argument provided by `cargo`.
+    let mut found_fumi = false;
     let args = env::args().filter(|x| {
-        if found_fmt {
+        if found_fumi {
             true
         } else {
-            found_fmt = x == "fmt";
-            x != "fmt"
+            found_fumi = x == "fumi";
+            x != "fumi"
         }
     });
 
@@ -152,7 +152,7 @@ fn rustfmt_command() -> Command {
     let rustfmt_var = env::var_os("RUSTFMT");
     let rustfmt = match &rustfmt_var {
         Some(rustfmt) => rustfmt,
-        None => OsStr::new("rustfmt"),
+        None => OsStr::new("rustfumi"),
     };
     Command::new(rustfmt)
 }
@@ -238,7 +238,7 @@ fn get_rustfmt_info(args: &[String]) -> Result<i32, io::Error> {
         .map_err(|e| match e.kind() {
             io::ErrorKind::NotFound => io::Error::new(
                 io::ErrorKind::Other,
-                "Could not run rustfmt, please make sure it is in your PATH.",
+                "Could not run rustfumi, please make sure it is in your PATH.",
             ),
             _ => e,
         })?;
@@ -496,7 +496,7 @@ fn run_rustfmt(
         };
 
         if verbosity == Verbosity::Verbose {
-            print!("rustfmt");
+            print!("rustfumi");
             print!(" --edition {}", edition);
             fmt_args.iter().for_each(|f| print!(" {}", f));
             files.iter().for_each(|f| print!(" {}", f.display()));
@@ -512,7 +512,7 @@ fn run_rustfmt(
             .map_err(|e| match e.kind() {
                 io::ErrorKind::NotFound => io::Error::new(
                     io::ErrorKind::Other,
-                    "Could not run rustfmt, please make sure it is in your PATH.",
+                    "Could not run rustfumi, please make sure it is in your PATH.",
                 ),
                 _ => e,
             })?;

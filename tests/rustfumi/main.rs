@@ -7,16 +7,16 @@ use std::process::Command;
 
 use rustfmt_config_proc_macro::rustfmt_only_ci_test;
 
-/// Run the rustfmt executable and return its output.
-fn rustfmt(args: &[&str]) -> (String, String) {
+/// Run the rustfumi executable and return its output.
+fn rustfumi(args: &[&str]) -> (String, String) {
     let mut bin_dir = env::current_exe().unwrap();
     bin_dir.pop(); // chop off test exe name
     if bin_dir.ends_with("deps") {
         bin_dir.pop();
     }
-    let cmd = bin_dir.join(format!("rustfmt{}", env::consts::EXE_SUFFIX));
+    let cmd = bin_dir.join(format!("rustfumi{}", env::consts::EXE_SUFFIX));
 
-    // Ensure the rustfmt binary runs from the local target dir.
+    // Ensure the rustfumi binary runs from the local target dir.
     let path = env::var_os("PATH").unwrap_or_default();
     let mut paths = env::split_paths(&path).collect::<Vec<_>>();
     paths.insert(0, bin_dir);
@@ -33,10 +33,10 @@ fn rustfmt(args: &[&str]) -> (String, String) {
 
 macro_rules! assert_that {
     ($args:expr, $($check:ident $check_args:tt)&&+) => {
-        let (stdout, stderr) = rustfmt($args);
+        let (stdout, stderr) = rustfumi($args);
         if $(!stdout.$check$check_args && !stderr.$check$check_args)||* {
             panic!(
-                "Output not expected for rustfmt {:?}\n\
+                "Output not expected for rustfumi {:?}\n\
                  expected: {}\n\
                  actual stdout:\n{}\n\
                  actual stderr:\n{}",
@@ -63,7 +63,7 @@ fn print_config() {
         contains("doesn't work with standard input.")
     );
 
-    let (stdout, stderr) = rustfmt(&[
+    let (stdout, stderr) = rustfumi(&[
         "--print-config",
         "minimal",
         "minimal-config",
@@ -112,8 +112,8 @@ fn inline_config() {
 #[test]
 fn rustfmt_usage_text() {
     let args = ["--help"];
-    let (stdout, _) = rustfmt(&args);
-    assert!(stdout.contains("Format Rust code\n\nusage: rustfmt [options] <file>..."));
+    let (stdout, _) = rustfumi(&args);
+    assert!(stdout.contains("Format Rust code\n\nusage: rustfumi [options] <file>..."));
 }
 
 #[test]
@@ -128,14 +128,14 @@ fn mod_resolution_error_multiple_candidate_files() {
     );
 
     let args = ["tests/mod-resolver/issue-5167/src/lib.rs"];
-    let (_stdout, stderr) = rustfmt(&args);
+    let (_stdout, stderr) = rustfumi(&args);
     assert!(stderr.contains(&error_message))
 }
 
 #[test]
 fn mod_resolution_error_sibling_module_not_found() {
     let args = ["tests/mod-resolver/module-not-found/sibling_module/lib.rs"];
-    let (_stdout, stderr) = rustfmt(&args);
+    let (_stdout, stderr) = rustfumi(&args);
     // Module resolution fails because we're unable to find `a.rs` in the same directory as lib.rs
     assert!(stderr.contains("a.rs does not exist"))
 }
@@ -143,7 +143,7 @@ fn mod_resolution_error_sibling_module_not_found() {
 #[test]
 fn mod_resolution_error_relative_module_not_found() {
     let args = ["tests/mod-resolver/module-not-found/relative_module/lib.rs"];
-    let (_stdout, stderr) = rustfmt(&args);
+    let (_stdout, stderr) = rustfumi(&args);
     // The file `./a.rs` and directory `./a` both exist.
     // Module resolution fails because we're unable to find `./a/b.rs`
     #[cfg(not(windows))]
@@ -155,7 +155,7 @@ fn mod_resolution_error_relative_module_not_found() {
 #[test]
 fn mod_resolution_error_path_attribute_does_not_exist() {
     let args = ["tests/mod-resolver/module-not-found/bad_path_attribute/lib.rs"];
-    let (_stdout, stderr) = rustfmt(&args);
+    let (_stdout, stderr) = rustfumi(&args);
     // The path attribute points to a file that does not exist
     assert!(stderr.contains("does_not_exist.rs does not exist"));
 }
@@ -166,10 +166,10 @@ fn rustfmt_emits_error_on_line_overflow_true() {
     let args = [
         "--config",
         "error_on_line_overflow=true",
-        "tests/cargo-fmt/source/issue_3164/src/main.rs",
+        "tests/cargo-fumi/source/issue_3164/src/main.rs",
     ];
 
-    let (_stdout, stderr) = rustfmt(&args);
+    let (_stdout, stderr) = rustfumi(&args);
     assert!(stderr.contains(
         "line formatted, but exceeded maximum width (maximum: 100 (see `max_width` option)"
     ))
@@ -182,7 +182,7 @@ fn dont_emit_ICE() {
 
     for file in files {
         let args = [file];
-        let (_stdout, stderr) = rustfmt(&args);
+        let (_stdout, stderr) = rustfumi(&args);
         assert!(!stderr.contains("thread 'main' panicked"));
     }
 }

@@ -7,9 +7,9 @@ command = "cargo"
 args = [
   "build",
   "--bin",
-  "rustfmt",
+  "rustfumi",
   "--bin",
-  "cargo-fmt",
+  "cargo-fumi",
 ]
 
 [tasks.build-bins]

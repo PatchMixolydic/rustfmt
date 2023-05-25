@@ -15,7 +15,7 @@ mod all_targets {
         exp_targets: &[ExpTarget],
         exp_num_targets: usize,
     ) {
-        let root_path = Path::new("tests/cargo-fmt/source").join(source_root);
+        let root_path = Path::new("tests/cargo-fumi/source").join(source_root);
         let get_path = |exp: &str| PathBuf::from(&root_path).join(exp).canonicalize().unwrap();
         let manifest_path = Path::new(&root_path).join(manifest_suffix);
         let targets = get_targets(&CargoFmtStrategy::All, Some(manifest_path.as_path()))

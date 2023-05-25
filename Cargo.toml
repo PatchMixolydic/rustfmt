@@ -1,22 +1,22 @@
 [package]
 
-name = "rustfmt-nightly"
+name = "rustfumi-nightly"
 version = "1.5.2"
 description = "Tool to find and fix Rust formatting issues"
-repository = "https://github.com/rust-lang/rustfmt"
+repository = "https://github.com/PatchMixolydic/rustfmt"
 readme = "README.md"
-license = "Apache-2.0/MIT"
+license = "Apache-2.0 OR MIT"
 build = "build.rs"
 categories = ["development-tools"]
 edition = "2021"
 
 [[bin]]
-name = "rustfmt"
+name = "rustfumi"
 path = "src/bin/main.rs"
 
 [[bin]]
-name = "cargo-fmt"
-path = "src/cargo-fmt/main.rs"
+name = "cargo-fumi"
+path = "src/cargo-fumi/main.rs"
 
 [[bin]]
 name = "rustfmt-format-diff"

@@ -383,7 +383,7 @@ fn idempotence_tests() {
 fn self_tests() {
     init_log();
     let mut files = get_test_files(Path::new("tests"), false);
-    let bin_directories = vec!["cargo-fmt", "git-rustfmt", "bin", "format-diff"];
+    let bin_directories = vec!["cargo-fumi", "git-rustfmt", "bin", "format-diff"];
     for dir in bin_directories {
         let mut path = PathBuf::from("src");
         path.push(dir);
@@ -409,7 +409,7 @@ fn self_tests() {
 
     assert_eq!(
         warnings, 0,
-        "Rustfmt's code generated {} warnings",
+        "rustfumi's code generated {} warnings",
         warnings
     );
 }
@@ -978,11 +978,11 @@ fn rustfmt() -> PathBuf {
     // Chop off `deps`.
     me.pop();
 
-    me.push("rustfmt");
+    me.push("rustfumi");
     assert!(
         me.is_file() || me.with_extension("exe").is_file(),
         "{}",
-        "no rustfmt bin, try running `cargo build` or `cargo build --release` before testing"
+        "no rustfumi bin, try running `cargo build` or `cargo build --release` before testing"
     );
     me
 }

@@ -3,7 +3,7 @@ use anyhow::{format_err, Result};
 use io::Error as IoError;
 use thiserror::Error;
 
-use rustfmt_nightly as rustfmt;
+use rustfumi_nightly as rustfumi;
 
 use std::collections::HashMap;
 use std::env;
@@ -14,7 +14,7 @@ use std::str::FromStr;
 
 use getopts::{Matches, Options};
 
-use crate::rustfmt::{
+use crate::rustfumi::{
     load_config, CliOptions, Color, Config, Edition, EmitMode, FileLines, FileName,
     FormatReportFormatterBuilder, Input, Session, Verbosity,
 };
@@ -394,7 +394,7 @@ fn print_usage_to_stdout(opts: &Options, reason: &str) {
         format!("{}\n\n", reason)
     };
     let msg = format!(
-        "{}Format Rust code\n\nusage: rustfmt [options] <file>...",
+        "{}Format Rust code\n\nusage: rustfumi [options] <file>...",
         sep
     );
     println!("{}", opts.usage(&msg));
@@ -410,7 +410,7 @@ are 1-based and inclusive of both end points. Specifying an empty array
 will result in no files being formatted. For example,
 
 ```
-rustfmt --file-lines '[
+rustfumi --file-lines '[
     {{\"file\":\"src/lib.rs\",\"range\":[7,13]}},
     {{\"file\":\"src/lib.rs\",\"range\":[21,29]}},
     {{\"file\":\"src/foo.rs\",\"range\":[10,11]}},
@@ -430,7 +430,7 @@ fn print_version() {
         include_str!(concat!(env!("OUT_DIR"), "/commit-info.txt"))
     );
 
-    println!("rustfmt {}", version_info);
+    println!("rustfumi {}", version_info);
 }
 
 fn determine_operation(matches: &Matches) -> Result<Operation, OperationError> {

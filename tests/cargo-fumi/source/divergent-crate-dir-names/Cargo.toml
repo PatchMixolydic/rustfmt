@@ -1,5 +1,5 @@
 [package]
-name = "cargo-fmt-test"
+name = "cargo-fumi-test"
 version = "0.1.0"
 authors = ["calebcartwright"]
 edition = "2018"

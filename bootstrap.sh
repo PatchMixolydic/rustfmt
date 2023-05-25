@@ -8,7 +8,7 @@ cargo build --release
 
 target/release/rustfmt src/lib.rs
 target/release/rustfmt src/bin/main.rs
-target/release/rustfmt src/cargo-fmt/main.rs
+target/release/rustfmt src/cargo-fumi/main.rs
 
 for filename in tests/target/*.rs; do
     if ! grep -q "rustfmt-" "$filename"; then
