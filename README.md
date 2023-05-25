@@ -20,20 +20,24 @@ Nightly is required to build `rustfumi`.
 To test:
 
 ```sh
-cargo +nightly test
+cargo test
 ```
 
 To install:
 
 ```sh
 cargo install --path .
-cargo install --path . --bin cargo-fumi
 ```
 
-To run on a cargo project in the current working directory:
+To run on a cargo project in the current working directory (the toolchain is necessary):
 
 ```sh
-cargo fumi
+cargo +nightly-2023-01-24 fumi
+```
+
+To run `rustfumi` itself:
+```sh
+rustup run nightly-2023-01-24 rustfumi
 ```
 
 For more information, see [rustfmt's README.md](https://github.com/rust-lang/rustfmt/blob/master/README.md).
