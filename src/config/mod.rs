@@ -177,8 +177,8 @@ create_config! {
     // Not user-facing
     verbose: Verbosity, Verbosity::Normal, false, "How much to information to emit to the user";
     file_lines: FileLines, FileLines::all(), false,
-        "Lines to format; this is not supported in rustfmt.toml, and can only be specified \
-         via the --file-lines option";
+        "Lines to format; this is not supported in rustfumi.toml/rustfmt.toml, and can only \
+         be specified via the --file-lines option";
     emit_mode: EmitMode, EmitMode::Files, false,
         "What emit Mode to use when none is supplied";
     make_backup: bool, false, false, "Backup changed files";
@@ -355,11 +355,17 @@ pub fn load_config<O: CliOptions>(
     })
 }
 
-// Check for the presence of known config file names (`rustfmt.toml, `.rustfmt.toml`) in `dir`
+// Check for the presence of known config file names (`rustfumi.toml`, `.rustfumi.toml`,
+// `rustfmt.toml, `.rustfmt.toml`) in `dir`
 //
 // Return the path if a config file exists, empty if no file exists, and Error for IO errors
 fn get_toml_path(dir: &Path) -> Result<Option<PathBuf>, Error> {
-    const CONFIG_FILE_NAMES: [&str; 2] = [".rustfmt.toml", "rustfmt.toml"];
+    const CONFIG_FILE_NAMES: [&str; 4] = [
+        ".rustfumi.toml",
+        "rustfumi.toml",
+        ".rustfmt.toml",
+        "rustfmt.toml",
+    ];
     for config_file_name in &CONFIG_FILE_NAMES {
         let config_file = dir.join(config_file_name);
         match fs::metadata(&config_file) {
@@ -439,8 +445,8 @@ mod test {
             verbose: Verbosity, Verbosity::Normal, false,
                 "How much to information to emit to the user";
             file_lines: FileLines, FileLines::all(), false,
-                "Lines to format; this is not supported in rustfmt.toml, and can only be specified \
-                    via the --file-lines option";
+                "Lines to format; this is not supported in rustfumi.toml/rustfmt.toml, and can \
+                 only be specified via the --file-lines option";
 
             // merge_imports deprecation
             imports_granularity: ImportGranularity, ImportGranularity::Preserve, false,

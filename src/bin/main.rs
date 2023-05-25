@@ -113,8 +113,8 @@ fn make_opts() -> Options {
     opts.optopt(
         "",
         "config-path",
-        "Recursively searches the given path for the rustfmt.toml config file. If not \
-         found reverts to the input file path",
+        "Recursively searches the given path for the rusfumi.toml or rustfmt.toml config file. \
+         If not found, reverts to the input file path",
         "[Path for the configuration file]",
     );
     opts.optopt("", "edition", "Rust edition to use", "[2015|2018|2021]");
@@ -141,7 +141,8 @@ fn make_opts() -> Options {
     opts.optmulti(
         "",
         "config",
-        "Set options from command line. These settings take priority over .rustfmt.toml",
+        "Set options from command line. These settings take priority over rustfumi.toml and \
+         rustfmt.toml",
         "[key1=val1,key2=val2...]",
     );
 

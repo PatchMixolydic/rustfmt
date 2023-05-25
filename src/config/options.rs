@@ -309,9 +309,9 @@ impl Default for EmitMode {
 /// A set of directories, files and modules that rustfmt should ignore.
 #[derive(Default, Clone, Debug, PartialEq)]
 pub struct IgnoreList {
-    /// A set of path specified in rustfmt.toml.
+    /// A set of path specified in rustfumi.toml or rustfmt.toml.
     path_set: HashSet<PathBuf>,
-    /// A path to rustfmt.toml.
+    /// A path to rustfumi.toml or rustfmt.toml.
     rustfmt_toml_path: PathBuf,
 }
 
